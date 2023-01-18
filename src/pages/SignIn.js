@@ -12,12 +12,11 @@ export default function SignIn() {
   async function submit(e) {
     e.preventDefault();
     try {
-      const res = await axios.post(
+      await axios.post(
         `${REACT_APP_API_URL}/users/sign-in`,
         { pwd },
         { headers: { Email: email } }
       );
-      console.log(res);
     } catch (res) {
       console.log(`Error ${res.response.status}: ${res.response.data}`);
     }
