@@ -56,11 +56,19 @@ strong {
     *{
         max-width: 375px;
         font-weight: 400;
+        font-family: 'Raleway', sans-serif, Arial, Helvetica, sans-serif;
     }
 
     body{
         margin: 0;
         height: 100vh;
+        max-width: 375px;
+        background-color: #8c12be;
+        color: #000000;
+
+        div{
+            height: 100%;
+        }
     }
 `;
 export default GlobalStyle;
