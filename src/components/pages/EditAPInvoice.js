@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import Loading from "../Loading";
 import Input from "../Input";
 import Submit from "../Submit";
-import styled from "styled-components";
+import { FormStyled, ContainerInvoicesStyled } from "./styles";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { EmailContext, TokenContext } from "../../context/context";
@@ -44,7 +44,7 @@ export default function EditAPInvoice() {
   }
   if (loading) return <Loading />;
   return (
-    <Container>
+    <ContainerInvoicesStyled>
       <h1>Editar saída</h1>
       <FormStyled onSubmit={submit}>
         <Input
@@ -61,30 +61,6 @@ export default function EditAPInvoice() {
         />
         <Submit type="submit" value={"Atualizar saída"}></Submit>
       </FormStyled>
-    </Container>
+    </ContainerInvoicesStyled>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  text-align: center;
-  h1 {
-    margin: 10% 10% 0 10%;
-    text-align: start;
-    font-weight: 700;
-    font-size: 26px;
-  }
-  h2 {
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-`;
-
-const FormStyled = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin: 10%;
-`;

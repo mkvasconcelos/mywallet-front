@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import Loading from "../Loading";
 import Input from "../Input";
 import Submit from "../Submit";
-import styled from "styled-components";
+import { ContainerSignStyled, FormStyled } from "./styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EmailContext, NameContext, TokenContext } from "../../context/context";
@@ -42,7 +42,7 @@ export default function SignIn() {
   }
   if (loading) return <Loading />;
   return (
-    <Container>
+    <ContainerSignStyled>
       <h1>MyWallet</h1>
       <FormStyled onSubmit={submit}>
         <Input
@@ -60,29 +60,6 @@ export default function SignIn() {
         <Submit type="submit" value={"Entrar"}></Submit>
       </FormStyled>
       <h2 onClick={() => navigate("/cadastro")}>Primeira vez? Cadastre-se!</h2>
-    </Container>
+    </ContainerSignStyled>
   );
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-  h1 {
-    font-family: "Saira Stencil One", cursive, Arial, Helvetica, sans-serif;
-    font-size: 32px;
-  }
-  h2 {
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-`;
-
-const FormStyled = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin: 10%;
-`;
