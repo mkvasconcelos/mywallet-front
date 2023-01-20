@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Input, Submit, Loading } from "./SmallComponents";
+import Loading from "../Loading";
+import Input from "../Input";
+import Submit from "../Submit";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

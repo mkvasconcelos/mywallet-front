@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { EmailContext, NameContext, TokenContext } from "../context/context";
+import { EmailContext, NameContext, TokenContext } from "../../context/context";
 import { IoExitOutline } from "react-icons/io5";
 import { FcCancel } from "react-icons/fc";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import styled from "styled-components";
 import axios from "axios";
-import { Loading } from "./SmallComponents";
+import Loading from "../Loading";
 import Swal from "sweetalert2";
 
 export default function Home() {

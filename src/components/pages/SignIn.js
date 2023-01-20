@@ -1,9 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Input, Loading, Submit } from "./SmallComponents";
+import Loading from "../Loading";
+import Input from "../Input";
+import Submit from "../Submit";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { EmailContext, NameContext, TokenContext } from "../context/context";
+import { EmailContext, NameContext, TokenContext } from "../../context/context";
 import Swal from "sweetalert2";
 
 export default function SignIn() {

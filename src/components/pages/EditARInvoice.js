@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Input, Loading, Submit } from "./SmallComponents";
+import Loading from "../Loading";
+import Input from "../Input";
+import Submit from "../Submit";
 import styled from "styled-components";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { EmailContext, TokenContext } from "../context/context";
+import { EmailContext, TokenContext } from "../../context/context";
 
-export default function EditAPInvoice() {
+export default function EditARInvoice() {
   const { state } = useLocation();
   const [value, setValue] = useState(state.value);
   const [description, setDescription] = useState(state.description);
@@ -24,7 +26,7 @@ export default function EditAPInvoice() {
     try {
       const res = await axios.put(
         `${REACT_APP_API_URL}/expenses/${idExpense}`,
-        { value: Number(value), description, status: false },
+        { value: Number(value), description, status: true },
         { headers: { Authorization: `Bearer ${token}`, Email: email } }
       );
       setLoading(false);
@@ -43,7 +45,7 @@ export default function EditAPInvoice() {
   if (loading) return <Loading />;
   return (
     <Container>
-      <h1>Editar saída</h1>
+      <h1>Editar entrada</h1>
       <FormStyled onSubmit={submit}>
         <Input
           type={"number"}
@@ -57,7 +59,7 @@ export default function EditAPInvoice() {
           value={description}
           setValue={setDescription}
         />
-        <Submit type="submit" value={"Atualizar saída"}></Submit>
+        <Submit type="submit" value={"Atualizar entrada"}></Submit>
       </FormStyled>
     </Container>
   );

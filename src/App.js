@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyle from "./globalStyles";
-import SignUp from "./pages/SignUp";
-import SignIn from "./pages/SignIn";
-import Home from "./pages/Home";
-import ARInvoice from "./pages/ARInvoice";
-import APInvoice from "./pages/APInvoice";
-import EditAPInvoice from "./pages/EditAPInvoice";
-import EditARInvoice from "./pages/EditARInvoice";
+import SignUp from "./components/pages/SignUp";
+import SignIn from "./components/pages/SignIn";
+import Home from "./components/pages/Home";
+import ARInvoice from "./components/pages/ARInvoice";
+import APInvoice from "./components/pages/APInvoice";
+import EditAPInvoice from "./components/pages/EditAPInvoice";
+import EditARInvoice from "./components/pages/EditARInvoice";
 import { EmailContext, NameContext, TokenContext } from "./context/context";
 
 export default function App() {

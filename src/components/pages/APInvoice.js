@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Input, Loading, Submit } from "./SmallComponents";
+import Loading from "../Loading";
+import Input from "../Input";
+import Submit from "../Submit";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { EmailContext, TokenContext } from "../context/context";
+import { EmailContext, TokenContext } from "../../context/context";
 
 export default function APInvoice() {
   const [value, setValue] = useState("");
