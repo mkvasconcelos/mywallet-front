@@ -1,28 +1,39 @@
-import React, { useState } from "react";
-import { Input, Submit } from "./styles";
+import React, { useContext, useState } from "react";
+import { Input, Loading, Submit } from "./styles";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { NameContext, TokenContext } from "../context/context";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { setToken } = useContext(TokenContext);
+  const { setName } = useContext(NameContext);
   const navigate = useNavigate();
   const { REACT_APP_API_URL } = process.env;
   async function submit(e) {
     e.preventDefault();
+    setLoading(true);
     try {
-      await axios.post(
+      const res = await axios.post(
         `${REACT_APP_API_URL}/users/sign-in`,
         { pwd },
         { headers: { Email: email } }
       );
+      setLoading(false);
+      navigate("/home");
+      setToken(res.data);
+      setName(res.data);
     } catch (res) {
       console.log(`Error ${res.response.status}: ${res.response.data}`);
+      setLoading(false);
     }
 
     return;
   }
+  if (loading) return <Loading />;
   return (
     <Container>
       <h1>MyWallet</h1>
@@ -51,7 +62,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  color: #ffffff;
   text-align: center;
   h1 {
     font-family: "Saira Stencil One", cursive, Arial, Helvetica, sans-serif;

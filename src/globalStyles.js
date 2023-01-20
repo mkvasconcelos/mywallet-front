@@ -56,6 +56,7 @@ strong {
     *{
         max-width: 375px;
         font-weight: 400;
+        color: #FFFFFF;
         font-family: 'Raleway', sans-serif, Arial, Helvetica, sans-serif;
     }
 
@@ -64,8 +65,6 @@ strong {
         height: 100vh;
         max-width: 375px;
         background-color: #8c12be;
-        color: #000000;
-
         div{
             height: 100%;
         }

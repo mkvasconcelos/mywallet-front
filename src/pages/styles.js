@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import ReactLoading from "react-loading";
 
 export function Input({ type, placeholder, value, setValue }) {
   return (
@@ -32,6 +33,24 @@ const SubmitStyled = styled.input`
   font-size: 20px;
   font-weight: 700;
   border: none;
-  color: #ffffff;
   cursor: pointer;
+`;
+
+export function Loading() {
+  return (
+    <LoadingStyled>
+      <ReactLoading
+        type={"bars"}
+        color={"#ffffff"}
+        height={"30%"}
+        width={"30%"}
+      />
+    </LoadingStyled>
+  );
+}
+
+const LoadingStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

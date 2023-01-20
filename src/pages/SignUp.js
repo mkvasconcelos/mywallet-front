@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Submit } from "./styles";
+import { Input, Submit, Loading } from "./styles";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,10 +10,12 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
   const [repeatPwd, setRepeatPwd] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { REACT_APP_API_URL } = process.env;
   async function submit(e) {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axios.post(
         `${REACT_APP_API_URL}/users/sign-up`,
@@ -26,12 +28,15 @@ export default function SignUp() {
       setEmail("");
       setPwd("");
       setRepeatPwd("");
+      setLoading(false);
     } catch (res) {
       console.log(`Error ${res.response.status}: ${res.response.data}`);
+      setLoading(false);
     }
 
     return;
   }
+  if (loading) return <Loading />;
   return (
     <Container>
       <h1>MyWallet</h1>
@@ -72,7 +77,6 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  color: #ffffff;
   text-align: center;
   h1 {
     font-family: "Saira Stencil One", cursive, Arial, Helvetica, sans-serif;
