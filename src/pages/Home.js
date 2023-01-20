@@ -14,11 +14,11 @@ export default function Home() {
   const { token } = useContext(TokenContext);
   const { name } = useContext(NameContext);
   const { email } = useContext(EmailContext);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { REACT_APP_API_URL } = process.env;
   const navigate = useNavigate();
-
   useEffect(() => {
+    !token && navigate("/");
     const res = axios.get(`${REACT_APP_API_URL}/expenses`, {
       headers: { Authorization: `Bearer ${token}`, Email: email },
     });
@@ -40,9 +40,10 @@ export default function Home() {
     resUser.catch(() => {
       console.log(`Error ${res.response.status}: ${res.response.data}`);
     });
-  }, [REACT_APP_API_URL, email, token]);
+  }, [REACT_APP_API_URL, email, token, navigate]);
 
   async function deleteExpense(id) {
+    if (!window.confirm("Quer mesmo apagar este lançamento?")) return;
     setLoading(true);
     try {
       const res = await axios.delete(`${REACT_APP_API_URL}/expenses/${id}`, {
@@ -61,11 +62,7 @@ export default function Home() {
     }
     return;
   }
-
-  if (!token) return navigate("/");
-
   if (loading) return <Loading />;
-
   return (
     <Container statusExpenses={expenses.length !== 0}>
       <div>
@@ -83,8 +80,26 @@ export default function Home() {
             ? "Não há registros de entrada ou saída"
             : expenses.map((e) => (
                 <Expenses key={e._id} status={e.status}>
-                  <div>{e.date}</div> <div>{e.description}</div>{" "}
-                  <div>{e.value.toFixed(2)}</div>
+                  <div>{e.date}</div>{" "}
+                  <div
+                    onClick={() =>
+                      e.status
+                        ? navigate(`/editar-entrada/${e._id}`, {
+                            state: {
+                              value: e.value,
+                              description: e.description,
+                            },
+                          })
+                        : navigate(`/editar-saida/${e._id}`, {
+                            state: {
+                              value: e.value,
+                              description: e.description,
+                            },
+                          })
+                    }>
+                    {e.description}
+                  </div>
+                  <div>{e.value?.toFixed(2)?.replace(".", ",")}</div>
                   <div>
                     <FcCancel
                       onClick={() => {
@@ -98,7 +113,11 @@ export default function Home() {
         {expenses.length !== 0 && (
           <Balance status={balance.status}>
             <div>SALDO</div>
-            <div>{balance.total}</div>
+            <div>
+              {balance.total < 0
+                ? (-balance.total)?.toFixed(2)?.replace(".", ",")
+                : balance.total?.toFixed(2)?.replace(".", ",")}
+            </div>
           </Balance>
         )}
       </main>

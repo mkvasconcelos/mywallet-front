@@ -1,18 +1,20 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Input, Loading, Submit } from "./SmallComponents";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { EmailContext, TokenContext } from "../context/context";
 
-export default function ARInvoice() {
-  const [value, setValue] = useState("");
-  const [description, setDescription] = useState("");
+export default function EditAPInvoice() {
+  const { state } = useLocation();
+  const [value, setValue] = useState(state.value);
+  const [description, setDescription] = useState(state.description);
   const [loading, setLoading] = useState(false);
   const { token } = useContext(TokenContext);
   const { email } = useContext(EmailContext);
   const navigate = useNavigate();
   const { REACT_APP_API_URL } = process.env;
+  const { idExpense } = useParams();
   useEffect(() => {
     !token && navigate("/");
   }, [token, navigate]);
@@ -20,9 +22,9 @@ export default function ARInvoice() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${REACT_APP_API_URL}/expenses`,
-        { value: Number(value), description, status: true },
+      const res = await axios.put(
+        `${REACT_APP_API_URL}/expenses/${idExpense}`,
+        { value: Number(value), description, status: false },
         { headers: { Authorization: `Bearer ${token}`, Email: email } }
       );
       setLoading(false);
@@ -34,10 +36,14 @@ export default function ARInvoice() {
     }
     return;
   }
+  if (!token) {
+    console.log(Boolean(!token));
+    return navigate("/");
+  }
   if (loading) return <Loading />;
   return (
     <Container>
-      <h1>Nova entrada</h1>
+      <h1>Editar saída</h1>
       <FormStyled onSubmit={submit}>
         <Input
           type={"number"}
@@ -51,7 +57,7 @@ export default function ARInvoice() {
           value={description}
           setValue={setDescription}
         />
-        <Submit type="submit" value={"Salvar entrada"}></Submit>
+        <Submit type="submit" value={"Atualizar saída"}></Submit>
       </FormStyled>
     </Container>
   );

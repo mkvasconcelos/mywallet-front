@@ -6,12 +6,14 @@ import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import ARInvoice from "./pages/ARInvoice";
 import APInvoice from "./pages/APInvoice";
+import EditAPInvoice from "./pages/EditAPInvoice";
+import EditARInvoice from "./pages/EditARInvoice";
 import { EmailContext, NameContext, TokenContext } from "./context/context";
 
 export default function App() {
-  const [token, setToken] = useState(null);
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [token, setToken] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   return (
     <div>
       <TokenContext.Provider value={{ token, setToken }}>
@@ -25,6 +27,14 @@ export default function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="nova-entrada" element={<ARInvoice />} />
                 <Route path="nova-saida" element={<APInvoice />} />
+                <Route
+                  path="editar-entrada/:idExpense"
+                  element={<EditARInvoice />}
+                />
+                <Route
+                  path="editar-saida/:idExpense"
+                  element={<EditAPInvoice />}
+                />
               </Routes>
             </BrowserRouter>
           </NameContext.Provider>

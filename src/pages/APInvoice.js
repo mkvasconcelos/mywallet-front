@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Input, Loading, Submit } from "./SmallComponents";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,9 @@ export default function APInvoice() {
   const { email } = useContext(EmailContext);
   const navigate = useNavigate();
   const { REACT_APP_API_URL } = process.env;
+  useEffect(() => {
+    !token && navigate("/");
+  }, [token, navigate]);
   async function submit(e) {
     e.preventDefault();
     setLoading(true);
@@ -29,8 +32,11 @@ export default function APInvoice() {
       console.log(`Error ${res.response.status}: ${res.response.data}`);
       setLoading(false);
     }
-
     return;
+  }
+  if (!token) {
+    console.log(Boolean(!token));
+    return navigate("/");
   }
   if (loading) return <Loading />;
   return (
