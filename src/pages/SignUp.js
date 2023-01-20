@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Submit, Loading } from "./styles";
+import { Input, Submit, Loading } from "./SmallComponents";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -29,8 +29,10 @@ export default function SignUp() {
       setPwd("");
       setRepeatPwd("");
       setLoading(false);
+      alert("Cadastro concluído com sucesso!");
+      navigate("/");
     } catch (res) {
-      console.log(`Error ${res.response.status}: ${res.response.data}`);
+      alert(`Error ${res.response.status}: ${res.response.data}`);
       setLoading(false);
     }
 

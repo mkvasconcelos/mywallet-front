@@ -1,35 +1,122 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { NameContext, TokenContext } from "../context/context";
+import { EmailContext, NameContext, TokenContext } from "../context/context";
 import { IoExitOutline } from "react-icons/io5";
+import { FcCancel } from "react-icons/fc";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import styled from "styled-components";
+import axios from "axios";
+import { Loading } from "./SmallComponents";
 
 export default function Home() {
+  const [expenses, setExpenses] = useState([]);
+  const [balance, setBalance] = useState({});
   const { token } = useContext(TokenContext);
-  // const { name } = useContext(NameContext);
-  const name = "Mateus";
+  const { name } = useContext(NameContext);
+  const { email } = useContext(EmailContext);
+  const [loading, setLoading] = useState(false);
+  const { REACT_APP_API_URL } = process.env;
   const navigate = useNavigate();
-  console.log(token);
-  if (token === null) {
-    navigate("/");
+
+  useEffect(() => {
+    const res = axios.get(`${REACT_APP_API_URL}/expenses`, {
+      headers: { Authorization: `Bearer ${token}`, Email: email },
+    });
+    res.then((res) => {
+      const newExpenses = res.data;
+      setLoading(false);
+      setExpenses(newExpenses);
+    });
+    res.catch(() => {
+      console.log(`Error ${res.response.status}: ${res.response.data}`);
+      setLoading(false);
+    });
+    const resUser = axios.get(`${REACT_APP_API_URL}/users`, {
+      headers: { Authorization: `Bearer ${token}`, Email: email },
+    });
+    resUser.then((res) => {
+      setBalance(res.data);
+    });
+    resUser.catch(() => {
+      console.log(`Error ${res.response.status}: ${res.response.data}`);
+    });
+  }, [REACT_APP_API_URL, email, token]);
+
+  async function deleteExpense(id) {
+    setLoading(true);
+    try {
+      const res = await axios.delete(`${REACT_APP_API_URL}/expenses/${id}`, {
+        headers: { Authorization: `Bearer ${token}`, Email: email },
+      });
+      const newExpenses = res.data;
+      setLoading(false);
+      setExpenses(newExpenses);
+      const resUser = await axios.get(`${REACT_APP_API_URL}/users`, {
+        headers: { Authorization: `Bearer ${token}`, Email: email },
+      });
+      setBalance(resUser.data);
+    } catch (res) {
+      console.log(`Error ${res.response.status}: ${res.response.data}`);
+      setLoading(false);
+    }
+    return;
   }
+
+  if (!token) return navigate("/");
+
+  if (loading) return <Loading />;
+
   return (
-    <Container>
+    <Container statusExpenses={expenses.length !== 0}>
       <div>
         <h1>Olá, {name}</h1>
-        <IoExitOutline fontSize={26} />
+        <div
+          onClick={() => {
+            navigate("/");
+          }}>
+          <IoExitOutline fontSize={26} />
+        </div>
       </div>
-      <section>Não há registros de entrada ou saída</section>
+      <main>
+        <section>
+          {expenses.length === 0
+            ? "Não há registros de entrada ou saída"
+            : expenses.map((e) => (
+                <Expenses key={e._id} status={e.status}>
+                  <div>{e.date}</div> <div>{e.description}</div>{" "}
+                  <div>{e.value.toFixed(2)}</div>
+                  <div>
+                    <FcCancel
+                      onClick={() => {
+                        deleteExpense(e._id);
+                      }}
+                    />
+                  </div>
+                </Expenses>
+              ))}
+        </section>
+        {expenses.length !== 0 && (
+          <Balance status={balance.status}>
+            <div>SALDO</div>
+            <div>{balance.total}</div>
+          </Balance>
+        )}
+      </main>
       <div>
-        <button>
+        <button
+          onClick={() => {
+            navigate("/nova-entrada");
+          }}>
           <AiOutlinePlusCircle fontSize={22} />
           <h2>
             Nova <br />
             entrada
           </h2>
         </button>
-        <button>
+        <button
+          onClick={() => {
+            navigate("/nova-saida");
+          }}>
           <AiOutlineMinusCircle fontSize={22} />
           <h2>
             Nova <br />
@@ -63,6 +150,9 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     height: fit-content;
+    div {
+      cursor: pointer;
+    }
   }
   div:last-child {
     display: flex;
@@ -77,14 +167,68 @@ const Container = styled.div`
     font-weight: 700;
     font-size: 17px;
   }
-  section {
+  main {
+    position: relative;
     background: #ffffff;
     border-radius: 5px;
-    color: #868686;
     margin: 5% 0 2% 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 7% 4% 7% 4%;
     height: calc(100vh - 141px - 10%);
+  }
+  section {
+    color: #868686;
+    height: 100%;
+    display: flex;
+    overflow-y: scroll;
+    flex-direction: column;
+    justify-content: ${(props) => (props.statusExpenses ? "start" : "center")};
+    align-items: ${(props) =>
+      props.statusExpenses ? "space-between" : "center"};
+  }
+`;
+
+const Expenses = styled.article`
+  display: flex;
+  margin-bottom: 20px;
+  div:first-child {
+    color: #c6c6c6;
+    width: 20%;
+  }
+  div:nth-child(2) {
+    color: black;
+    width: 50%;
+    cursor: pointer;
+  }
+  div:nth-child(2):hover {
+    background-color: #a328d6;
+    color: white;
+  }
+  div:nth-child(3) {
+    color: ${(props) => (props.status ? "#03AC00" : "#C70000")};
+    width: 20%;
+    text-align: end;
+  }
+  div:last-child {
+    width: 10%;
+    justify-content: center;
+    cursor: pointer;
+  }
+`;
+
+const Balance = styled.article`
+  position: absolute;
+  z-index: 2;
+  bottom: 2%;
+  display: flex;
+  width: 93%;
+  div:first-child {
+    color: black;
+    font-weight: 700;
+    width: 20%;
+  }
+  div:last-child {
+    color: ${(props) => (props.status ? "#03AC00" : "#C70000")};
+    width: 80%;
+    justify-content: end;
   }
 `;
