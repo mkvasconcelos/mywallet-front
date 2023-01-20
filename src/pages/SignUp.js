@@ -3,7 +3,7 @@ import { Input, Submit, Loading } from "./SmallComponents";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -23,16 +23,19 @@ export default function SignUp() {
         { headers: { Email: email } }
       );
       console.log(res.status);
-      // swal({ title: "Cadastro realizado!", icon: "success" });
       setName("");
       setEmail("");
       setPwd("");
       setRepeatPwd("");
       setLoading(false);
-      alert("Cadastro concluído com sucesso!");
+      Swal.fire({ title: "Cadastro concluído com sucesso!", icon: "success" });
       navigate("/");
     } catch (res) {
-      alert(`Error ${res.response.status}: ${res.response.data}`);
+      Swal.fire({
+        title: "Houve um problema com o seu cadastro.",
+        text: `Error ${res.response.status}: ${res.response.data}`,
+        icon: "error",
+      });
       setLoading(false);
     }
 

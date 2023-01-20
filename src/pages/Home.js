@@ -7,6 +7,7 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import styled from "styled-components";
 import axios from "axios";
 import { Loading } from "./SmallComponents";
+import Swal from "sweetalert2";
 
 export default function Home() {
   const [expenses, setExpenses] = useState([]);
@@ -42,25 +43,42 @@ export default function Home() {
     });
   }, [REACT_APP_API_URL, email, token, navigate]);
 
-  async function deleteExpense(id) {
-    if (!window.confirm("Quer mesmo apagar este lançamento?")) return;
-    setLoading(true);
-    try {
-      const res = await axios.delete(`${REACT_APP_API_URL}/expenses/${id}`, {
-        headers: { Authorization: `Bearer ${token}`, Email: email },
-      });
-      const newExpenses = res.data;
-      setLoading(false);
-      setExpenses(newExpenses);
-      const resUser = await axios.get(`${REACT_APP_API_URL}/users`, {
-        headers: { Authorization: `Bearer ${token}`, Email: email },
-      });
-      setBalance(resUser.data);
-    } catch (res) {
-      console.log(`Error ${res.response.status}: ${res.response.data}`);
-      setLoading(false);
-    }
-    return;
+  function deleteExpense(id) {
+    Swal.fire({
+      title: "Quer mesmo apagar este lançamento?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sim!",
+      confirmButtonColor: "green",
+      cancelButtonText: "Não.",
+      cancelButtonColor: "red",
+    }).then(async (result) => {
+      console.log(result);
+      if (!result.isConfirmed) {
+        return Swal.close();
+      } else {
+        setLoading(true);
+        try {
+          const res = await axios.delete(
+            `${REACT_APP_API_URL}/expenses/${id}`,
+            {
+              headers: { Authorization: `Bearer ${token}`, Email: email },
+            }
+          );
+          const newExpenses = res.data;
+          setLoading(false);
+          setExpenses(newExpenses);
+          const resUser = await axios.get(`${REACT_APP_API_URL}/users`, {
+            headers: { Authorization: `Bearer ${token}`, Email: email },
+          });
+          setBalance(resUser.data);
+        } catch (res) {
+          console.log(`Error ${res.response.status}: ${res.response.data}`);
+          setLoading(false);
+        }
+        return;
+      }
+    });
   }
   if (loading) return <Loading />;
   return (

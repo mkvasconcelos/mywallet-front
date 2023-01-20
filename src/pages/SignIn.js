@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { EmailContext, NameContext, TokenContext } from "../context/context";
+import Swal from "sweetalert2";
 
 export default function SignIn() {
   const [pwd, setPwd] = useState("");
@@ -27,7 +28,11 @@ export default function SignIn() {
       setToken(res.data.token);
       setName(res.data.name);
     } catch (res) {
-      alert(`Error ${res.response.status}: ${res.response.data}`);
+      Swal.fire({
+        title: "Houve um problema com o seu acesso.",
+        text: `Error ${res.response.status}: ${res.response.data}`,
+        icon: "error",
+      });
       setLoading(false);
     }
 
