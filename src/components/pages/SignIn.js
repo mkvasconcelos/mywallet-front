@@ -21,7 +21,7 @@ export default function SignIn() {
     setLoading(true);
     try {
       const res = await axios.post(
-        `${REACT_APP_API_URL}/users/sign-in`,
+        `${REACT_APP_API_URL}/sign-in`,
         { pwd },
         { headers: { Email: email } }
       );

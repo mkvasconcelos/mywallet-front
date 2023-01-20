@@ -10,6 +10,7 @@ import { EmailContext, TokenContext } from "../../context/context";
 export default function APInvoice() {
   const [value, setValue] = useState("");
   const [description, setDescription] = useState("");
+  // const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
   const { token } = useContext(TokenContext);
   const { email } = useContext(EmailContext);
@@ -57,6 +58,12 @@ export default function APInvoice() {
           value={description}
           setValue={setDescription}
         />
+        {/* <Input
+          type={"date"}
+          placeholder={"Data"}
+          value={date}
+          setValue={setDate}
+        /> */}
         <Submit type="submit" value={"Salvar saída"}></Submit>
       </FormStyled>
     </ContainerInvoicesStyled>

@@ -20,7 +20,7 @@ export default function SignUp() {
     setLoading(true);
     try {
       const res = await axios.post(
-        `${REACT_APP_API_URL}/users/sign-up`,
+        `${REACT_APP_API_URL}/sign-up`,
         { pwd, name, repeatPwd },
         { headers: { Email: email } }
       );
