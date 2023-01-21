@@ -84,7 +84,12 @@ export default function Home() {
   return (
     <ContainerHomeStyled statusExpenses={expenses.length !== 0}>
       <div>
-        <h1>Olá, {name}</h1>
+        <h1
+          onClick={() => {
+            navigate("/editar-usuario");
+          }}>
+          Olá, {name}
+        </h1>
         <div
           onClick={() => {
             navigate("/");

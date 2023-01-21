@@ -5,6 +5,7 @@ import Submit from "../Submit";
 import { FormStyled, ContainerInvoicesStyled } from "./styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { EmailContext, TokenContext } from "../../context/context";
 
 export default function ARInvoice() {
@@ -31,7 +32,11 @@ export default function ARInvoice() {
       navigate("/home");
       console.log(res);
     } catch (res) {
-      console.log(`Error ${res.response.status}: ${res.response.data}`);
+      Swal.fire({
+        title: "Houve um problema com o seu lançamento.",
+        text: `Error ${res.response.status}: ${res.response.data}`,
+        icon: "error",
+      });
       setLoading(false);
     }
     return;

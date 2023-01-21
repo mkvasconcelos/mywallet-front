@@ -9,6 +9,7 @@ import APInvoice from "./components/pages/APInvoice";
 import EditAPInvoice from "./components/pages/EditAPInvoice";
 import EditARInvoice from "./components/pages/EditARInvoice";
 import { EmailContext, NameContext, TokenContext } from "./context/context";
+import EditUser from "./components/pages/EditUser";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -35,6 +36,7 @@ export default function App() {
                   path="editar-saida/:idExpense"
                   element={<EditAPInvoice />}
                 />
+                <Route path="editar-usuario/" element={<EditUser />} />
               </Routes>
             </BrowserRouter>
           </NameContext.Provider>

@@ -75,6 +75,7 @@ export const ContainerHomeStyled = styled.div`
   h1 {
     font-weight: 700;
     font-size: 26px;
+    cursor: pointer;
   }
   h2 {
     font-weight: 700;

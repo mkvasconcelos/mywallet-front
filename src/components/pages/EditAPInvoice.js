@@ -5,6 +5,7 @@ import Submit from "../Submit";
 import { FormStyled, ContainerInvoicesStyled } from "./styles";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 import { EmailContext, TokenContext } from "../../context/context";
 
 export default function EditAPInvoice() {
@@ -33,7 +34,11 @@ export default function EditAPInvoice() {
       navigate("/home");
       console.log(res);
     } catch (res) {
-      console.log(`Error ${res.response.status}: ${res.response.data}`);
+      Swal.fire({
+        title: "Houve um problema com a sua atualização.",
+        text: `Error ${res.response.status}: ${res.response.data}`,
+        icon: "error",
+      });
       setLoading(false);
     }
     return;
