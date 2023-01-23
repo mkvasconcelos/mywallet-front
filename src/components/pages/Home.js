@@ -80,7 +80,9 @@ export default function Home() {
       }
     });
   }
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <ContainerHomeStyled statusExpenses={expenses.length !== 0}>
       <div data-test="user-name">

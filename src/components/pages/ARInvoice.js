@@ -26,7 +26,7 @@ export default function ARInvoice() {
     try {
       const res = await axios.post(
         `${REACT_APP_API_URL}/expenses`,
-        { value: Number(value), description, status: true, date },
+        { value: Number(value), status: true, date, description },
         { headers: { Authorization: `Bearer ${token}`, Email: email } }
       );
       setLoading(false);
@@ -42,7 +42,12 @@ export default function ARInvoice() {
     }
     return;
   }
-  if (loading) return <Loading />;
+  if (!token) {
+    return navigate("/");
+  }
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <ContainerInvoicesStyled>
       <h1>Nova entrada</h1>

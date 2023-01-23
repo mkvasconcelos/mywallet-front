@@ -43,7 +43,9 @@ export default function SignUp() {
 
     return;
   }
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <ContainerSignStyled>
       <h1>MyWallet</h1>

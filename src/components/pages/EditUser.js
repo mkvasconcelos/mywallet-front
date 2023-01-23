@@ -44,10 +44,11 @@ export default function EditUser() {
     return;
   }
   if (!token) {
-    console.log(Boolean(!token));
     return navigate("/");
   }
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <ContainerInvoicesStyled>
       <h1>Editar usuário</h1>

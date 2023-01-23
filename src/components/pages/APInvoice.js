@@ -26,7 +26,7 @@ export default function APInvoice() {
     try {
       const res = await axios.post(
         `${REACT_APP_API_URL}/expenses`,
-        { value: Number(value), description, status: false, date },
+        { value: Number(value), status: false, date, description },
         { headers: { Authorization: `Bearer ${token}`, Email: email } }
       );
       setLoading(false);
@@ -43,10 +43,11 @@ export default function APInvoice() {
     return;
   }
   if (!token) {
-    console.log(Boolean(!token));
     return navigate("/");
   }
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <ContainerInvoicesStyled>
       <h1>Nova saída</h1>

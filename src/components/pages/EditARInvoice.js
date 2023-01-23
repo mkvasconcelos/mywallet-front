@@ -28,7 +28,7 @@ export default function EditARInvoice() {
     try {
       const res = await axios.put(
         `${REACT_APP_API_URL}/expenses/${idExpense}`,
-        { value: Number(value), description, status: true, date },
+        { value: Number(value), status: true, date, description },
         { headers: { Authorization: `Bearer ${token}`, Email: email } }
       );
       setLoading(false);
@@ -47,7 +47,9 @@ export default function EditARInvoice() {
   if (!token) {
     return navigate("/");
   }
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <ContainerInvoicesStyled>
       <h1>Editar entrada</h1>

@@ -40,7 +40,9 @@ export default function SignIn() {
 
     return;
   }
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <ContainerSignStyled>
       <h1>MyWallet</h1>
