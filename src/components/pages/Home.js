@@ -83,7 +83,7 @@ export default function Home() {
   if (loading) return <Loading />;
   return (
     <ContainerHomeStyled statusExpenses={expenses.length !== 0}>
-      <div>
+      <div data-test="user-name">
         <h1
           onClick={() => {
             navigate("/editar-usuario");
@@ -91,6 +91,7 @@ export default function Home() {
           Olá, {name}
         </h1>
         <div
+          data-test="logout"
           onClick={() => {
             navigate("/");
           }}>
@@ -107,6 +108,7 @@ export default function Home() {
                     String(e.date).split("T")[0].split("-")[1]
                   }`}</div>{" "}
                   <div
+                    data-test="registry-name"
                     onClick={() =>
                       e.status
                         ? navigate(`/editar-entrada/${e._id}`, {
@@ -126,9 +128,12 @@ export default function Home() {
                     }>
                     {e.description}
                   </div>
-                  <div>{e.value?.toFixed(2)?.replace(".", ",")}</div>
+                  <div data-test="registry-amount">
+                    {e.value?.toFixed(2)?.replace(".", ",")}
+                  </div>
                   <div>
                     <FcCancel
+                      data-test="registry-delete"
                       onClick={() => {
                         deleteExpense(e._id);
                       }}
@@ -140,7 +145,7 @@ export default function Home() {
         {expenses.length !== 0 && (
           <BalanceStyled status={balance.status}>
             <div>SALDO</div>
-            <div>
+            <div data-test="total-amount">
               {balance.total < 0
                 ? (-balance.total)?.toFixed(2)?.replace(".", ",")
                 : balance.total?.toFixed(2)?.replace(".", ",")}
@@ -150,6 +155,7 @@ export default function Home() {
       </main>
       <div>
         <button
+          data-test="new-income"
           onClick={() => {
             navigate("/nova-entrada");
           }}>
@@ -160,6 +166,7 @@ export default function Home() {
           </h2>
         </button>
         <button
+          data-test="new-expense"
           onClick={() => {
             navigate("/nova-saida");
           }}>

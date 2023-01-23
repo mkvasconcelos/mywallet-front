@@ -49,30 +49,37 @@ export default function SignUp() {
       <h1>MyWallet</h1>
       <FormStyled onSubmit={submit}>
         <Input
+          data-test="name"
           type={"text"}
           placeholder={"Nome"}
           value={name}
           setValue={setName}
         />
         <Input
+          data-test="email"
           type={"email"}
           placeholder={"E-mail"}
           value={email}
           setValue={setEmail}
         />
         <Input
+          data-test="password"
           type={"password"}
           placeholder={"Senha"}
           value={pwd}
           setValue={setPwd}
         />
         <Input
+          data-test="conf-password"
           type={"password"}
           placeholder={"Confirme a senha"}
           value={repeatPwd}
           setValue={setRepeatPwd}
         />
-        <Submit type="submit" value={"Cadastrar"}></Submit>
+        <Submit
+          data-test="sign-up-submit"
+          type="submit"
+          value={"Cadastrar"}></Submit>
       </FormStyled>
       <h2 onClick={() => navigate("/")}>Já tem uma conta? Entre agora!</h2>
     </ContainerSignStyled>

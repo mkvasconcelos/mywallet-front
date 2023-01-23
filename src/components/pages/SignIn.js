@@ -46,18 +46,23 @@ export default function SignIn() {
       <h1>MyWallet</h1>
       <FormStyled onSubmit={submit}>
         <Input
+          data-test="email"
           type={"email"}
           placeholder={"E-mail"}
           value={email}
           setValue={setEmail}
         />
         <Input
+          data-test="password"
           type={"password"}
           placeholder={"Senha"}
           value={pwd}
           setValue={setPwd}
         />
-        <Submit type="submit" value={"Entrar"}></Submit>
+        <Submit
+          data-test="sign-in-submit"
+          type="submit"
+          value={"Entrar"}></Submit>
       </FormStyled>
       <h2 onClick={() => navigate("/cadastro")}>Primeira vez? Cadastre-se!</h2>
     </ContainerSignStyled>

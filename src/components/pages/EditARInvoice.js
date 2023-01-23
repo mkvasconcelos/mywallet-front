@@ -53,19 +53,29 @@ export default function EditARInvoice() {
       <h1>Editar entrada</h1>
       <FormStyled onSubmit={submit}>
         <Input
+          data-test="registry-amount"
           type={"number"}
           placeholder={"Valor"}
           value={value}
           setValue={setValue}
         />
         <Input
+          data-test="registry-name-input"
           type={"text"}
           placeholder={"Descrição"}
           value={description}
           setValue={setDescription}
         />
-        <Input type={"date"} value={date} setValue={setDate} />
-        <Submit type="submit" value={"Atualizar entrada"}></Submit>
+        <Input
+          type={"date"}
+          placeholder={"Data"}
+          value={date}
+          setValue={setDate}
+        />
+        <Submit
+          data-test="registry-save"
+          type="submit"
+          value={"Atualizar entrada"}></Submit>
       </FormStyled>
     </ContainerInvoicesStyled>
   );
