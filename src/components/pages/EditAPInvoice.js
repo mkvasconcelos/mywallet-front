@@ -12,6 +12,7 @@ export default function EditAPInvoice() {
   const { state } = useLocation();
   const [value, setValue] = useState(state.value);
   const [description, setDescription] = useState(state.description);
+  const [date, setDate] = useState(String(state.date).split("T")[0]);
   const [loading, setLoading] = useState(false);
   const { token } = useContext(TokenContext);
   const { email } = useContext(EmailContext);
@@ -27,7 +28,7 @@ export default function EditAPInvoice() {
     try {
       const res = await axios.put(
         `${REACT_APP_API_URL}/expenses/${idExpense}`,
-        { value: Number(value), description, status: false },
+        { value: Number(value), description, status: false, date },
         { headers: { Authorization: `Bearer ${token}`, Email: email } }
       );
       setLoading(false);
@@ -44,7 +45,6 @@ export default function EditAPInvoice() {
     return;
   }
   if (!token) {
-    console.log(Boolean(!token));
     return navigate("/");
   }
   if (loading) return <Loading />;
@@ -64,6 +64,7 @@ export default function EditAPInvoice() {
           value={description}
           setValue={setDescription}
         />
+        <Input type={"date"} value={date} setValue={setDate} />
         <Submit type="submit" value={"Atualizar saída"}></Submit>
       </FormStyled>
     </ContainerInvoicesStyled>

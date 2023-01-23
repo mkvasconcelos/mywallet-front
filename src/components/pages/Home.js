@@ -103,7 +103,9 @@ export default function Home() {
             ? "Não há registros de entrada ou saída"
             : expenses.map((e) => (
                 <ExpensesStyled key={e._id} status={e.status}>
-                  <div>{e.date}</div>{" "}
+                  <div>{`${String(e.date).split("T")[0].split("-")[2]}/${
+                    String(e.date).split("T")[0].split("-")[1]
+                  }`}</div>{" "}
                   <div
                     onClick={() =>
                       e.status
@@ -111,12 +113,14 @@ export default function Home() {
                             state: {
                               value: e.value,
                               description: e.description,
+                              date: e.date,
                             },
                           })
                         : navigate(`/editar-saida/${e._id}`, {
                             state: {
                               value: e.value,
                               description: e.description,
+                              date: e.date,
                             },
                           })
                     }>
