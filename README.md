@@ -32,9 +32,8 @@ The frontend project is structured as a single-page application with the followi
 
 1. Clone the repository to your local machine.<br>
 2. Run `npm install` to install all dependencies.<br>
-3. Start MongoDB locally or connect to a remote database.<br>
-4. Create a `.env` file and set the `DATABASE_URL`.<br>
-5. Run `npm start` to start the server.
+3. Create a `.env` file and set the `REACT_API_BASE_URL`.<br>
+4. Run `npm start` to start the server.
 
 ### Features
 
